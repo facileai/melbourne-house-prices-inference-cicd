@@ -86,7 +86,7 @@ stages:
         containerRegistry: 'facileai-dev-gcr'
         repository: '$(docker.image.name)'
         command: 'buildAndPush'
-        Dockerfile: 'Dockerfile'
+        Dockerfile: '**/Dockerfile'
         
 - stage: 'Dev'
   displayName: 'Dev'
