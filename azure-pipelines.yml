@@ -5,9 +5,16 @@
 
 trigger:
 - master
+- dev
 variables:
-  - group: fsp-build-variables
-  - group: kbf-run-variables
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - group: prod-mhpp-variables
+      - group: prod-kbf-run-variables
+  ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - group: dev-mhpp-variables
+      - group: dev-kbf-run-variables
+  
+  
 stages:
 - stage: 'CI'
   displayName: 'Build and Push'
@@ -51,14 +58,14 @@ stages:
     - task: GsutilRunner@0
       inputs:
         command: 'cp'
-        arguments: '$(jobdir.path)/$(kbf.run.id)/model.pkl .'
-      displayName: 'gsutil download model.pkl'
+        arguments: '$(jobdir.path)/$(kbf.run.id)/$(model.name) .'
+      displayName: 'gsutil download $(model.name)'
       
     - task: GsutilRunner@0
       inputs:
         command: 'cp'
-        arguments: '$(jobdir.path)/$(kbf.run.id)/data-proc-obj.pkl .'
-      displayName: 'gsutil download data-proc-obj.pkl'
+        arguments: '$(jobdir.path)/$(kbf.run.id)/$(data.proc.name) .'
+      displayName: 'gsutil download $(data.proc.name)'
 
     - script: |
         ls -l .

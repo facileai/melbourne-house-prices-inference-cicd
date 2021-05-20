@@ -42,12 +42,12 @@ spec:
         image: MELBOURNE_HOUSE_PRICING_PREDICTION_IMAGE
         env:
         - name: PREDICTIONS_URI
-          value: {{PREDICTIONS_URI}}
+          value: {{predictions.uri}}
 
         - name: MODEL_NAME
-          value: {{MODEL_NAME}}
+          value: {{model.name}}
         - name: PROC_FILENAME
-          value: {{PROC_FILENAME}}
+          value: {{data.proc.name}}
         ports:
           - containerPort: 5000
         livenessProbe:      # Used by deployment controller
