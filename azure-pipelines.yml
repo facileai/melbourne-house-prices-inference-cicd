@@ -47,7 +47,7 @@ stages:
       name: gcsServiceAccount
       displayName: 'Download GCS Service Account'
       inputs:
-        secureFile: 'gcs-service-account.json'
+        secureFile: 'facileai-dev-522ebf9e0a01.json'
 
     - task: GcloudRunner@0
       inputs:
