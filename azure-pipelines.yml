@@ -101,9 +101,7 @@ stages:
   jobs:
   - deployment:
     displayName: 'Deployment to GCP K8s Dev'
-    environment: 'facileai-dev-k8s.default'
-    variables:
-    - group: 'fsp-release-variables'
+    environment: 'facileai-k8s-dev.default'
     strategy:
       runOnce:
         deploy:
