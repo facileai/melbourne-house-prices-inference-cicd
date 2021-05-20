@@ -7,12 +7,12 @@ trigger:
 - main
 - dev
 variables:
-  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-      - group: prod-mhpp-variables
-      - group: prod-kbf-run-variables
-  ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-      - group: dev-mhpp-variables
-      - group: dev-kbf-run-variables
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+  - group: prod-mhpp-variables
+  - group: prod-kbf-run-variables
+- ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+  - group: dev-mhpp-variables
+  - group: dev-kbf-run-variables
   
   
 stages:
