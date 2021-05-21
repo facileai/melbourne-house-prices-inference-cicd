@@ -43,7 +43,7 @@ stages:
 
     steps:
     - script: |
-        echo  ${{ parameters.source }}
+        echo  ${{ parameters.sourceBranch }}
         
       displayName: 'echo build param'
     - task: UsePythonVersion@0
