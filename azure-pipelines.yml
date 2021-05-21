@@ -5,13 +5,13 @@
 parameters: 
 - name: kfpTrigger   
   type: string   
-  default: 'dev'
+  default: 'refs/heads/dev'
   displayName: "Queue build by rest api" 
 trigger:
 - main
 - dev
 variables:
-- ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(parameters.kfpTrigger, 'prod')) }}:
+- ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(parameters.kfpTrigger, 'refs/heads/main')) }}:
   - group: prod-mhpp-variables
   - group: prod-kbf-run-variables
   - name: container.registry
@@ -20,7 +20,7 @@ variables:
     value: facileai-dev-522ebf9e0a01.json
   - name: sourceBranch
     value: refs/heads/main
-- ${{ if and(ne(variables['Build.SourceBranch'], 'refs/heads/main'), ne(parameters.kfpTrigger, 'prod')) }}:
+- ${{ if and(ne(variables['Build.SourceBranch'], 'refs/heads/main'), ne(parameters.kfpTrigger, 'refs/heads/main')) }}:
   - group: dev-mhpp-variables
   - group: dev-kbf-run-variables
   - name: container.registry
