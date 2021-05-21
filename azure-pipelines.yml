@@ -2,19 +2,24 @@
 # Create and test a Python package on multiple Python versions.
 # Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
+parameters: 
+- name: kfpTrigger   
+  type: string   
+  default: 'refs/heads/dev'
+  displayName: "Queue build by rest api" 
 trigger:
 - main
 - dev
 variables:
-- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+- ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(parameters.kfpTrigger, 'refs/heads/main')) }}:
   - group: prod-mhpp-variables
   - group: prod-kbf-run-variables
   - name: container.registry
     value: facileai-prod-gcr 
   - name: gcs.service.account.file
     value: facileai-prod-42da52855a20.json
-- ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+
+- ${{ if and(ne(variables['Build.SourceBranch'], 'refs/heads/main'), ne(parameters.kfpTrigger, 'refs/heads/main')) }}:
   - group: dev-mhpp-variables
   - group: dev-kbf-run-variables
   - name: container.registry
@@ -35,8 +40,13 @@ stages:
       matrix:
         Python37:
           python.version: '3.7'
+    
 
     steps:
+    - script: |
+        echo  ${{ parameters.kfpTrigger }}
+        
+      displayName: 'echo build param'
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(python.version)'
