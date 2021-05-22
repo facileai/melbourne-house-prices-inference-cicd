@@ -3,24 +3,12 @@ kind: Service
 metadata:
   name: melbourne-house-pricing-prediction
 spec:
+  type: LoadBalancer
+  selector:
+    app: melbourne-house-pricing-prediction
   ports:
   - port: 80
     targetPort: 5000
-    protocol: TCP
-    name: http
-  selector:
-    app: melbourne-house-pricing-prediction
-  type: NodePort
-
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: melbourne-house-pricing-prediction
-spec:
-  backend:
-    serviceName: melbourne-house-pricing-prediction
-    servicePort: 80
 
 ---
 apiVersion: apps/v1
