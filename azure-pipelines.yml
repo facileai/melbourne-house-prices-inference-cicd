@@ -109,7 +109,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: dockerhub-registry
-        repository: 'melbourne_house_pricing'
+        repository: 'gakuba/melbourne_house_pricing'
         command: 'buildAndPush'
         Dockerfile: 'Dockerfile'
         
