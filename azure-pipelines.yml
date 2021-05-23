@@ -137,6 +137,31 @@ stages:
               action: 'deploy'
               manifests: |
                 $(Pipeline.Workspace)/**/drop/deployment.yaml
+
+- stage: 'Prod'
+  displayName: 'Prod'
+  dependsOn: 'Dev'
+  jobs:
+  - deployment:
+    displayName: 'Deployment to GCP K8s Prod'
+    environment: 'facileai-k8s-prod.default'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: replacetokens@3
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/drop'
+              targetFiles: 'deployment.yaml'
+              tokenPrefix: '{{'
+              tokenSuffix: '}}'
+
+          - task: KubernetesManifest@0
+            displayName: 'kubectl apply'
+            inputs:
+              action: 'deploy'
+              manifests: |
+                $(Pipeline.Workspace)/**/drop/deployment.yaml
                 
           
 
