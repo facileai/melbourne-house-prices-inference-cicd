@@ -98,7 +98,7 @@ stages:
       displayName: 'Lock image version in deployment.yaml'
       inputs:
         filename: /bin/bash
-        arguments: '-c "awk ''{gsub(\"MELBOURNE_HOUSE_PRICING_PREDICTION_IMAGE\", \"index.docker.io/v1/gakuba/melbourne_house_pricing/$(docker.image.name):$(Build.BuildId)\", $0); print}'' deployment.yaml > $(Build.ArtifactStagingDirectory)/deployment.yaml"'
+        arguments: '-c "awk ''{gsub(\"MELBOURNE_HOUSE_PRICING_PREDICTION_IMAGE\", \"gakuba/melbourne_house_pricing/$(docker.image.name):$(Build.BuildId)\", $0); print}'' deployment.yaml > $(Build.ArtifactStagingDirectory)/deployment.yaml"'
 
     - task: PublishBuildArtifacts@1
       inputs:
